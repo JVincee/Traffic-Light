@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Traffic Simulator</title>
+	<style type="text/css">
+		*{
+			box-sizing: border-box;
+		}
+
+		body{
+			background-color: black;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 100vh;
+			margin: 0;
+		}
+		.container{
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-direction: column;
+			padding: 15px;
+			background-color: #2c3e50;
+			border-radius: 50px;
+			z-index: 200;
+			height: 200px;
+			width: 70px;
+		}
+		.circle{
+			width: 40px;
+			height: 40px;
+			background-color: rgba(0, 0, 0, 0.3);
+			border-radius: 50%;
+			position: relative;
+		}
+		.circle:after{
+			content: '';
+			position: absolute;
+			border-radius: 50%;
+			border-right: 4px solid rgba(255, 255, 255, 0.6);
+			top: 5px;
+			width: 30px;
+			height: 30px;
+		}
+
+		.circle.red{
+			background-color: red;
+			box-shadow: 0 0 20px 5px red;
+		}
+		.circle.yellow{
+			background-color: yellow;
+			box-shadow: 0 0 20px 5px yellow;
+		}
+		.circle.green{
+			background-color: green;
+			box-shadow: 0 0 20px 5px green;
+		}
+		.pole{
+			width: 20px;
+			height: 300px;
+			background-color: #2c3e50;
+			position: absolute;
+			top: 1px;
+		}
+		.paper{
+			position: absolute;
+			background-color: white;
+			bottom: 100px;
+			width: 100px;
+			height: 50px;
+			border-radius: 5px;
+		}
+		.time{
+			font-size: 45px;
+			text-align: center;
+		}
+		.bump{
+			width: 50px;
+			height: 40px;
+			background-color: #2c3e50;
+			position: absolute;
+			bottom: 190px;
+			border-radius: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div class="pole"></div>
+	<div class="container">
+		<div class="circle red" color="red"></div>
+		<div class="circle" color="yellow"></div>
+		<div class="circle" color="green"></div>
+	</div>
+	<div class="bump"></div>
+	<div class="paper">
+		<div id="time" class="time"></div>
+	</div>
+	<script>
+		const circles = document.querySelectorAll('.circle')
+		let activeLight = 0;
+		let time = 0;
+		setInterval(() => {
+			changeLight();
+		}, 1000);
+
+		function changeLight(){
+			circles[activeLight].classList.remove(circles[activeLight].getAttribute('color'));
+			
+			if(time==0){
+				activeLight--;
+				switch(activeLight){
+					case 0:
+						time = 60;
+						break;
+					case 1:
+						time = 3;
+						break;
+					default:
+						activeLight = 2;
+						time = 57;
+						break;
+				}
+			}else{
+				time--;
+			}
+			document.getElementById('time').innerHTML = time;
+			circles[activeLight].classList.add(circles[activeLight].getAttribute('color'));
+		}
+	</script>
+</body>
+</html>
